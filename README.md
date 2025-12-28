@@ -24,7 +24,7 @@ This QBit provides SFTP connectivity with file polling, parsing, and processing 
 
 ### Prerequisites
 
-- QQQ application (v0.20+)
+- QQQ application (v0.35.0+)
 - Database backend configured
 - SFTP server credentials
 
@@ -34,9 +34,9 @@ Add to your `pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>io.qrun</groupId>
+    <groupId>com.kingsrook.qbits</groupId>
     <artifactId>qbit-sftp-data-integration</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
 </dependency>
 ```
 
