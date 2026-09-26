@@ -24,7 +24,7 @@ This QBit provides SFTP connectivity with file polling, parsing, and processing 
 
 ### Prerequisites
 
-- QQQ application (v0.35.0+)
+- QQQ application (v4.0.0+)
 - Database backend configured
 - SFTP server credentials
 

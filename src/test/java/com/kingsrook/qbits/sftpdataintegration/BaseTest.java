@@ -89,7 +89,7 @@ public class BaseTest
       // basic definition of an instance //
       /////////////////////////////////////
       QInstance qInstance = new QInstance();
-      qInstance.setAuthentication(new QAuthenticationMetaData().withType(QAuthenticationType.FULLY_ANONYMOUS));
+      qInstance.withInstanceDefaultAuthentication(new QAuthenticationMetaData().withType(QAuthenticationType.FULLY_ANONYMOUS));
       qInstance.addBackend(new QBackendMetaData().withBackendType(MemoryBackendModule.class).withName(MEMORY_BACKEND_NAME));
 
       //////////////////////////////////////////////
