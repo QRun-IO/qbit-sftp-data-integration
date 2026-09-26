@@ -169,4 +169,52 @@ class SyncSFTPImportConfigScheduledJobTransformStepTest extends BaseTest
       assertTrue(GetAction.execute(ScheduledJob.TABLE_NAME, 2).getValueBoolean("isActive"));
    }
 
+
+
+   /*******************************************************************************
+    ** a cron expression needs a time zone - from the record, or on update, from
+    ** the old record.  with neither, the customizer must reject the record.
+    *******************************************************************************/
+   @Test
+   void testCronExpressionWithoutTimeZoneIsRejected() throws QException
+   {
+      String expectedError = "If a Expression is used, then a corresponding Time Zone must be selected";
+
+      //////////////////////////////////////////////////////
+      // insert with a cron but no time zone - must error //
+      //////////////////////////////////////////////////////
+      QRecord insertedWithoutTimeZone = new InsertAction().execute(new InsertInput(SFTPImportConfig.TABLE_NAME).withRecordEntity(new SFTPImportConfig()
+         .withName("test")
+         .withSftpConnectionId(1)
+         .withIsActive(true)
+         .withDeleteImportedFiles(false)
+         .withCronExpression("0 0 0 * * ?")
+         .withCronTimeZoneId(null)
+         .withSavedBulkLoadProfileId(47))).getRecords().get(0);
+      assertEquals(1, insertedWithoutTimeZone.getErrors().size());
+      assertEquals(expectedError, insertedWithoutTimeZone.getErrors().get(0).getMessage());
+
+      //////////////////////////////////////////////////////////////////////////////////
+      // update a config that has no time zone, setting only a cron - the old record //
+      // has no time zone to fall back to either, so this must error too             //
+      //////////////////////////////////////////////////////////////////////////////////
+      QRecord sftpImportConfig = new InsertAction().execute(new InsertInput(SFTPImportConfig.TABLE_NAME).withRecordEntity(new SFTPImportConfig()
+         .withName("test2")
+         .withSftpConnectionId(1)
+         .withIsActive(true)
+         .withDeleteImportedFiles(false)
+         .withCronExpression(null)
+         .withCronTimeZoneId(null)
+         .withSavedBulkLoadProfileId(47))).getRecords().get(0);
+      assertEquals(0, sftpImportConfig.getErrors().size());
+
+      QRecord updatedWithoutTimeZone = new UpdateAction().execute(new UpdateInput(SFTPImportConfig.TABLE_NAME).withRecord(new QRecord()
+         .withValue("id", sftpImportConfig.getValue("id"))
+         .withValue("cronExpression", "1 1 1 * * ?"))).getRecords().get(0);
+      assertEquals(1, updatedWithoutTimeZone.getErrors().size());
+      assertEquals(expectedError, updatedWithoutTimeZone.getErrors().get(0).getMessage());
+
+      assertEquals(0, CountAction.execute(ScheduledJob.TABLE_NAME, new QQueryFilter()));
+   }
+
 }
