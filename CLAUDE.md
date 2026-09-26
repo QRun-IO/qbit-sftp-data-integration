@@ -10,7 +10,9 @@ Reviewed dossiers for this repo and the wider QQQ ecosystem live in the second-b
 - QBit mechanics refresher: `R:/Git.Local/KofTwentyTwo/second-brain/knowledge/qqq/architecture/metadata-model.md`
 - Parent pom (`qbit-build-parent`, from QRun-IO/qbit-bom): `R:/Git.Local/KofTwentyTwo/second-brain/knowledge/qqq/repos/qbit-bom.md`
 
-Key cautions recorded in the dossier: develop and main have diverged (Apache-2.0 LICENSE,
-Java 21, qqq 0.35.0, v0.3.0 are main-only; develop is AGPL / Java 17 / qqq 0.27.9); two
-confirmed qqq-4.0 compile breaks (BREAK-04-18 in both config customizers, BREAK-04-11 in
-BaseTest); pom `<licenses>` + all file headers + checkstyle header template still AGPL.
+Since the dossier review, main was back-merged into develop and the build moved to
+`qbit-build-parent` 2.0.0 (qqq 4.0.0, Java 21), with the BREAK-04-18 and BREAK-04-11 compile
+breaks migrated (QRun-IO/qqq#770). The qqq version comes only from the parent; check the next
+line with `mvn -B verify -Pqqq-snapshot` (qqq `4.1.0-SNAPSHOT`, override with
+`-Dqqq.snapshot.version`). Still open: LICENSE is Apache-2.0 (from main), but the pom
+`<licenses>`, all file headers and the checkstyle header template are still AGPL.

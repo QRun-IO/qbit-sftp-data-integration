@@ -49,6 +49,7 @@ import com.kingsrook.qqq.backend.core.model.statusmessages.BadInputStatusMessage
 import com.kingsrook.qqq.backend.core.processes.implementations.etl.streamedwithfrontend.StreamedETLWithFrontendProcess;
 import com.kingsrook.qqq.backend.core.utils.CollectionUtils;
 import com.kingsrook.qqq.backend.core.utils.StringUtils;
+import com.kingsrook.qqq.backend.core.utils.ValueUtils;
 import org.quartz.CronScheduleBuilder;
 import static com.kingsrook.qqq.backend.core.logging.LogUtils.logPair;
 
@@ -81,7 +82,7 @@ public class SFTPExportConfigCustomizer implements TableCustomizerInterface
                record.addError(new BadInputStatusMessage("Cron Expression [" + cronExpression + "] is not valid: " + e.getMessage()));
             }
 
-            String cronTimeZoneId = RecordCustomizerUtilityInterface.getValueFromRecordOrOldRecord("cronTimeZoneId", record, record.getValue("id"), oldRecordMap);
+            String cronTimeZoneId = ValueUtils.getValueAsString(RecordCustomizerUtilityInterface.getValueFromRecordElseFromOldRecord("cronTimeZoneId", record, record.getValue("id"), oldRecordMap));
             if(!StringUtils.hasContent(cronTimeZoneId))
             {
                record.addError(new BadInputStatusMessage("If a Expression is used, then a corresponding Time Zone must be selected"));
