@@ -14,5 +14,5 @@ Since the dossier review, main was back-merged into develop and the build moved 
 `qbit-build-parent` 2.0.0 (qqq 4.0.0, Java 21), with the BREAK-04-18 and BREAK-04-11 compile
 breaks migrated (QRun-IO/qqq#770). The qqq version comes only from the parent; check the next
 line with `mvn -B verify -Pqqq-snapshot` (qqq `4.1.0-SNAPSHOT`, override with
-`-Dqqq.snapshot.version`). Still open: LICENSE is Apache-2.0 (from main), but the pom
-`<licenses>`, all file headers and the checkstyle header template are still AGPL.
+`-Dqqq.snapshot.version`). Current first-party license declarations use Apache-2.0
+consistently across LICENSE/NOTICE, the pom, source headers, Checkstyle template and README.
