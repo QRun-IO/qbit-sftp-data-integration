@@ -2,7 +2,7 @@ profile: qbit
 orb_version: '0.8'
 default_branch: develop
 java_version: '21'
-browsers: true
+browsers: false
 api_checks: false
 docs_only: false
 release_on_main: true
