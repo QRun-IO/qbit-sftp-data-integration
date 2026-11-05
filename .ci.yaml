@@ -14,6 +14,7 @@ components:
       java: "21"
     build:
       tool: maven
+      # Shared verification uses the release version property so unchanged tested outputs can be reused.
       commands:
         - ["--batch-mode", "--update-snapshots", "-T4", "--no-transfer-progress", "verify"]
         - ["--batch-mode", "--no-transfer-progress", "org.codehaus.mojo:flatten-maven-plugin:1.7.3:flatten", "-Dflatten.mode=resolveCiFriendliesOnly", "-DupdatePomFile=true"]
