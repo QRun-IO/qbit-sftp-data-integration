@@ -22,6 +22,7 @@ components:
     artifacts:
       packages:
         format: maven
+        # Retain the generated consumer POM alongside the tested JAR; both are required for publication.
         paths: [".flattened-pom.xml", "target/*.jar"]
 
 release:
