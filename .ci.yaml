@@ -36,9 +36,20 @@ release:
         rule: develop-next-minor
       central_completion: true
       version_write_back: {}
+    # Release candidates: a push to release/X.Y derives X.Y.0-RC.n with the existing rc-from-branch rule (the first RC of a branch that declares
+    # X.Y.Z-SNAPSHOT is RC.1); maven-release refuses a SNAPSHOT effective version. Published to the same destination as the snapshot, with the same
+    # Central completion and source write-back policy.
+    release-candidate:
+      trigger:
+        push_branches: ["release/*"]
+      versioning: maven-release
+      effective_version:
+        rule: rc-from-branch
+      central_completion: true
+      version_write_back: {}
   publications:
     qbit-sftp-packages:
       component: library
       artifact: packages
       destination: qrun-maven
-      channels: [snapshot]
+      channels: [snapshot, release-candidate]
