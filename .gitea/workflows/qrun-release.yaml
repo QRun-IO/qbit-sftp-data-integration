@@ -8,6 +8,8 @@ permissions:
   actions: read
 jobs:
   release:
+    # Develop uses the repository-owned shared pipeline configuration.
+    if: ${{ github.ref != 'refs/heads/develop' }}
     uses: self:KofTwentyTwo/platform-ci/.gitea/workflows/java-maven.yaml@qrun-release-v1
     with:
       runner: linux-small

@@ -1,0 +1,42 @@
+schema: 1
+
+scoped_delegation: true
+
+verification:
+  push:
+    branches: [main, master, dev, rc, "release/**", "hotfix/**", "qualification/**"]
+
+components:
+  library:
+    directory: .
+    platforms: [linux-amd64]
+    toolchains:
+      java: "21"
+    build:
+      tool: maven
+      commands:
+        - ["--batch-mode", "--update-snapshots", "-T4", "--no-transfer-progress", "verify"]
+        - ["--batch-mode", "--no-transfer-progress", "org.codehaus.mojo:flatten-maven-plugin:1.7.3:flatten", "-Dflatten.mode=resolveCiFriendliesOnly", "-DupdatePomFile=true"]
+    reports:
+      junit: "**/target/surefire-reports/*.xml"
+    artifacts:
+      packages:
+        format: maven
+        paths: [".flattened-pom.xml", "target/*.jar"]
+
+release:
+  channels:
+    snapshot:
+      trigger:
+        push_branches: [develop]
+      versioning: maven-snapshot
+      effective_version:
+        rule: develop-next-minor
+      central_completion: true
+      version_write_back: {}
+  publications:
+    qbit-sftp-packages:
+      component: library
+      artifact: packages
+      destination: qrun-maven
+      channels: [snapshot]
